@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Property, type: :model do
   it { should have_many(:units).dependent(:destroy) }
-
+  it { should have_many(:quotes).dependent(:destroy) }
   it { should validate_presence_of(:address) }
 
   it 'normalizes the address before saving' do
