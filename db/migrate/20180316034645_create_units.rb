@@ -10,6 +10,6 @@ class CreateUnits < ActiveRecord::Migration[5.1]
 
       t.timestamps
     end
-    add_index :units, :number, unique: true
+    add_index :units, [:number, :property_id], unique: true
   end
 end

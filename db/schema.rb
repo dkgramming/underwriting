@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20180316034645) do
     t.integer "property_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["number"], name: "index_units_on_number", unique: true
+    t.index ["number", "property_id"], name: "index_units_on_number_and_property_id", unique: true
     t.index ["property_id"], name: "index_units_on_property_id"
   end
 
