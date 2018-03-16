@@ -1,4 +1,8 @@
+require 'normalic'
+
 class Property < ApplicationRecord
+  before_save :normalize_address
+
   EXPENSES = [
     MARKETING = :marketing_expense,
     TAX = :tax_expense,
@@ -19,4 +23,9 @@ class Property < ApplicationRecord
   end
 
   validates :cap_rate, numericality: true
+
+  private
+    def normalize_address
+      self.address = Normalic::Address.parse(address).to_s
+    end
 end

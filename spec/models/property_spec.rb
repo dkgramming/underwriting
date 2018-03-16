@@ -5,6 +5,11 @@ RSpec.describe Property, type: :model do
 
   it { should validate_presence_of(:address) }
 
+  it 'normalizes the address before saving' do
+    property = Property.create!(address: '152 west 57th street new york ny 10019', cap_rate: 13.2)
+    expect(property.address).to eq('152 W 57th St., New York, NY 10019')
+  end
+
   it do
     should validate_numericality_of(:marketing_expense).
       is_greater_than_or_equal_to(0)
