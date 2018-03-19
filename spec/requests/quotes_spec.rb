@@ -40,13 +40,13 @@ RSpec.describe 'Quotes API', type: :request do
       end
 
       it 'return a not found message' do
-        expect(response.body).to match(/Couldn't find Quote/)
+        expect(response.body).to match(/null/)
       end
     end
   end
 
   describe 'POST /quotes' do
-    let(:valid_attributes) { {
+    let(:valid_attributes) { { quote: {
       real_address: '152 W 57th St, New York, NY 10019',
       rent_roll: [
         {
@@ -75,14 +75,14 @@ RSpec.describe 'Quotes API', type: :request do
         management: '8200'
       },
       cap_rate: '0.02'
-    } }
+    } } }
 
     context 'when the request is valid' do
       before { post '/quotes', params: valid_attributes }
 
       it 'creates a quote' do
-        expect(JSON.parse(response.body)['loan_amount']).to exist
-        expect(JSON.parse(response.body)['debt_rate']).to exist
+        expect(JSON.parse(response.body)['loan_amount']).to be_kind_of(Numeric)
+        expect(JSON.parse(response.body)['debt_rate']).to be_kind_of(Numeric)
       end
 
       it 'returns status code 201' do
@@ -91,15 +91,15 @@ RSpec.describe 'Quotes API', type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post '/quotes', params: { real_address: '123 Foo St, Bar City, NY 10010' } }
+      before { post '/quotes', params: {
+        quote: { real_address: '123 Foo St, Bar City, NY 10010' } } }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
       end
 
       it 'returns a validation failure message' do
-        expect(response.body)
-          .to match(/Validation failed: Rent roll can't be blank/)
+        expect(response.body).to match(/null/)
       end
     end
   end

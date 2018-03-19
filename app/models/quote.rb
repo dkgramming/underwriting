@@ -19,6 +19,13 @@ class Quote < ApplicationRecord
     ten_year_treasury + bps(200)
   end
 
+  def to_h
+    {
+      loan_amount: loan_amount,
+      debt_rate: debt_rate
+    }
+  end
+
   private
     # Random value between the 52 week range as of Friday, March 26, 2018
     def ten_year_treasury
